@@ -1,19 +1,37 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-const { randomBytes } = require("crypto");
+
 const cors = require("cors");
 const axios = require("axios");
-
+const mongoose =require('mongoose')
 const app = express();
+
+const Comment = require('./models/comment');
+
+
 app.use(bodyParser.json());
 app.use(cors());
 
-const commentsByPostId = {};
+
 
 // @route   GET /posts/:id/comments
 // @desc    Retrieve all comments associated with the given post ID
-app.get("/posts/:id/comments", (req, res) => {
-  res.send(commentsByPostId[req.params.id] || []);
+app.get("/posts/:id/comments", async (req, res) => {
+  // res.send(commentsByPostId[req.params.id] || []);
+  const postId = req.params.id;
+
+  try {
+    const comments = await Comment.findOne({ postId: postId });
+
+    if (comments) {
+      res.status(200).json(comments);
+    } else {
+      res.status(404).json({ message: "Comments not found" });
+    }
+  } catch (error) {
+    console.error("Error fetching comments for the post:", error);
+    res.status(500).json({ message: "Error fetching comments" });
+  }
 });
 
 // @route   POST /posts/:id/comments
@@ -21,25 +39,41 @@ app.get("/posts/:id/comments", (req, res) => {
 // @body    {"content": string}
 // @event   Send CommentCreated to event-bus
 app.post("/posts/:id/comments", async (req, res) => {
-  const commentId = randomBytes(4).toString("hex");
-  const { content } = req.body;
+  const postId = req.params.id
+  const { content } = req.body
 
-  const comments = commentsByPostId[req.params.id] || [];
+  try {
+    const new_comment = new Comment({
+      content: content, 
+      postId: postId
+    })
+    const commentId = new_comment._id
 
-  comments.push({ id: commentId, content });
+    // save comment to db
+    await new_comment.save((err) =>{
+      if(err){
+        console.log('saving post error:------> ', err)
+      }
+      console.log("Comment saved to Comment db:", new_comment, 'commentId: ', commentId);
+    })
+    await axios.post("http://event-bus-srv:4005/events", {
+      type: "CommentCreated",
+      data: {
+        commentId: commentId,
+        content,
+        postId: postId,
+      },
+    });
+    res.status(200).json(new_comment);
+  } catch (err) {
+    console.error("Error ", err)
+  }
 
-  commentsByPostId[req.params.id] = comments;
 
-  await axios.post("http://event-bus-srv:4005/events", {
-    type: "CommentCreated",
-    data: {
-      id: commentId,
-      content,
-      postId: req.params.id,
-    },
-  });
 
-  res.status(201).send(comments);
+
+
+  
 });
 
 app.post("/events", (req, res) => {
@@ -48,6 +82,20 @@ app.post("/events", (req, res) => {
   res.send({});
 });
 
-app.listen(4001, () => {
-  console.log("Listening on 4001");
-});
+
+
+
+const start = async() =>{
+  await mongoose.connect('mongodb://app-mongo-srv:27017/comments', {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  })
+  .then(() => console.log("Comments DB connected"))
+  .catch((err) => console.log("DB Error => ", err));
+  app.listen(4001, () => {
+    console.log("Listening on 4001");
+  });
+}
+
+
+start();
