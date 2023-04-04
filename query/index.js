@@ -58,6 +58,25 @@ app.post('/events', async(req, res) => {
   }
 });
 
+// @route   GET /posts/search
+// @desc    Search a post by its title
+// @query   { title: string }
+app.get("/posts/search", async (req, res) => {
+  const { title } = req.query;
+
+  try {
+    const post = await Query.findOne({ title: title });
+    
+    if (!post) {
+      return res.status(404).json({ message: "Post not found" });
+    }
+
+    res.json(post);
+  } catch (error) {
+    console.error("Error searching the post by title:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+});
 
 
 const start = async() =>{

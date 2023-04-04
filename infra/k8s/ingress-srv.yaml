@@ -17,6 +17,13 @@ spec:
                 name: posts-clusterip-srv
                 port:
                   number: 4000
+          - path: /posts/search
+            pathType: Prefix
+            backend:
+              service:
+                name: query-srv
+                port:
+                  number: 4002        
           - path: /posts
             pathType: Prefix
             backend:
