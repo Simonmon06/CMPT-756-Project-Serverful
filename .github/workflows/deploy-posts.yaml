@@ -18,3 +18,8 @@ jobs:
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
       - run: cd posts && docker build -t zygu06/posts .
       - run: docker push zygu06/posts
+      - uses: digitalocean/action-doctl@v2
+        with:
+          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+      - run: doctl kubernetes cluster kubeconfig save cmpt756-serverful
+      - run: kubectl rollout restart deployment posts-depl
