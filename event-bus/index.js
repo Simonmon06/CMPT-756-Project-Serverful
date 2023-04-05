@@ -21,5 +21,6 @@ app.post("/events", (req, res) => {
 });
 
 app.listen(4005, () => {
+  console.log('Event-bus service starts on digital ocean ')
   console.log("Listening on 4005");
 });

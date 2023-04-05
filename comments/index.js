@@ -86,6 +86,7 @@ app.post("/events", (req, res) => {
 
 
 const start = async() =>{
+  console.log('Comments service starts on digital ocean ')
   await mongoose.connect('mongodb://app-mongo-srv:27017/comments', {
     useNewUrlParser: true,
     useUnifiedTopology: true

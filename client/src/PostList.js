@@ -49,7 +49,7 @@ const PostList = () => {
 
   return (
     <div>
-      <h1>Create A Post!!</h1>
+      <h1>Create A Post!</h1>
       <PostCreate onPostCreate={fetchPosts} />
       <hr />
       <h2>All Posts</h2>
