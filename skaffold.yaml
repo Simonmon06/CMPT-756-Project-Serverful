@@ -4,6 +4,7 @@ manifests:
   rawYaml:
   # watch all yaml files in this dir
     - ./infra/k8s/*
+    - ./infra/k8s-dev/*
 build:
   local:
   # not push to doker hub everytime
