@@ -8,8 +8,10 @@ const PostSearch = () => {
   const onSubmit = async (event) => {
     event.preventDefault();
 
+    let prod_URL = `http://www.post-app-serverful-prod.xyz/posts/search?title=${title}`
+    let dev_URL = `http://posts.com/posts/search?title=${title}`
     try {
-      const res = await axios.get(`http://www.post-app-serverful-prod.xyz/posts/search?title=${title}`);
+      const res = await axios.get(prod_URL);
       setSearchResult(res.data);
       console.log('search result', res.data)
     } catch (error) {
