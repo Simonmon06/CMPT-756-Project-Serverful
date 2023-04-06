@@ -9,7 +9,7 @@ const PostList = () => {
 
   const fetchPosts = useCallback(async () => {
     try {
-      const res = await axios.get("http://posts.com/posts");
+      const res = await axios.get("http://www.post-app-serverful-prod.xyz/posts");
       if (res.data.length === 0) {
         // Retry fetching posts after 500ms if no posts are found
         setTimeout(fetchPosts, 500);

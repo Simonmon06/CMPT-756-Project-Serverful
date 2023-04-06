@@ -9,7 +9,7 @@ const PostSearch = () => {
     event.preventDefault();
 
     try {
-      const res = await axios.get(`http://posts.com/posts/search?title=${title}`);
+      const res = await axios.get(`http://www.post-app-serverful-prod.xyz/posts/search?title=${title}`);
       setSearchResult(res.data);
       console.log('search result', res.data)
     } catch (error) {
