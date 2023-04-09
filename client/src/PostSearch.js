@@ -9,9 +9,10 @@ const PostSearch = () => {
     event.preventDefault();
 
     let prod_URL = `http://www.post-app-serverful-prod.xyz/posts/search?title=${title}`
+    let prod_URL_aws = `http://www.post-app-serverful.xyz/posts/search?title=${title}`
     let dev_URL = `http://posts.com/posts/search?title=${title}`
     try {
-      const res = await axios.get(prod_URL);
+      const res = await axios.get(prod_URL_aws);
       setSearchResult(res.data);
       console.log('search result', res.data)
     } catch (error) {

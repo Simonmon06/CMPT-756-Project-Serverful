@@ -80,7 +80,7 @@ app.get("/posts/search", async (req, res) => {
 
 
 const start = async() =>{
-  console.log('Query service starts on digital ocean ')
+  console.log('Query service starts on aws ')
   await mongoose.connect('mongodb://query-mongo-srv:27017/query', {
     useNewUrlParser: true,
     useUnifiedTopology: true

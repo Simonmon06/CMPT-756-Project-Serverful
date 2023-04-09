@@ -18,8 +18,10 @@ jobs:
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
       - run: cd event-bus && docker build -t zygu06/event-bus .
       - run: docker push zygu06/event-bus
-      - uses: digitalocean/action-doctl@v2
+      - uses: aws-actions/configure-aws-credentials@v2
         with:
-          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
-      - run: doctl kubernetes cluster kubeconfig save cmpt756-serverful
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-west-2
+      - run: aws eks update-kubeconfig --region us-west-2 --name CMPT756-serverful-cluster
       - run: kubectl rollout restart deployment event-bus-depl
