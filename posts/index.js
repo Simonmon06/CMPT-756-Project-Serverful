@@ -65,8 +65,8 @@ app.post("/events", (req, res) => {
 });
 
 const start = async() =>{
-  
-  console.log('Post service starts on digital ocean ')
+
+  console.log('Post service starts on aws ')
   await mongoose.connect('mongodb://app-mongo-srv:27017/posts', {
     useNewUrlParser: true,
     useUnifiedTopology: true
