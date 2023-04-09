@@ -7,8 +7,10 @@ const PostCreate = ({onPostCreate}) => {
   const onSubmit = async (event) => {
     event.preventDefault();
     let prod_URL = "http://www.post-app-serverful-prod.xyz/posts/create"
+    let prod_URL_aws = "http://www.post-app-serverful.xyz/posts/create"
     let dev_URL = "http://posts.com/posts/create"
-    await axios.post(prod_URL, {
+    
+    await axios.post(prod_URL_aws, {
       title,
     });
 

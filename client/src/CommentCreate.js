@@ -7,8 +7,9 @@ const CommentCreate = ({ postId , onCommentCreate}) => {
   const onSubmit = async (event) => {
     event.preventDefault();
     let prod_URL = `http://www.post-app-serverful-prod.xyz/posts/${postId}/comments`
+    let prod_URL_aws = `http://www.post-app-serverful.xyz/posts/${postId}/comments`
     let dev_URL = `http://posts.com/posts/${postId}/comments`
-    await axios.post(prod_URL, {
+    await axios.post(prod_URL_aws, {
       content,
     });
 

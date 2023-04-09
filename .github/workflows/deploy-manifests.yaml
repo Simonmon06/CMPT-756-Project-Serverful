@@ -12,8 +12,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: digitalocean/action-doctl@v2
+      - uses: aws-actions/configure-aws-credentials@v2
         with:
-          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-west-2
+      - run: aws eks update-kubeconfig --region us-west-2 --name CMPT756-serverful-cluster
       - run: doctl kubernetes cluster kubeconfig save cmpt756-serverful
       - run: kubectl apply -f infra/k8s && kubectl apply -f infra/k8s-prod
