@@ -24,5 +24,5 @@ jobs:
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
       - run: cd posts && docker build -t zygu06/posts .
       - run: docker push zygu06/posts
-      - run: aws eks update-kubeconfig --region us-west-2 --name cmpt756-serverful
+      - run: aws eks update-kubeconfig --region us-west-2 --name CMPT756-serverful-cluster
       - run: kubectl rollout restart deployment posts-depl
