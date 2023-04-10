@@ -12,7 +12,18 @@ const Comment = require('./models/comment');
 app.use(bodyParser.json());
 app.use(cors());
 
+// @route   GET /posts/comments
+// @desc    Get All Comments
+app.get("/posts/comments", async(req, res) => {
+  try {
+    const comments = await Comment.find();
 
+    res.status(200).json(comments);
+  } catch (error) {
+    console.error("Error fetching comments:", error);
+    res.status(500).json({ message: "Error fetching comments" });
+  }
+});
 
 // @route   GET /posts/:id/comments
 // @desc    Retrieve all comments associated with the given post ID
@@ -70,11 +81,23 @@ app.post("/posts/:id/comments", async (req, res) => {
   }
 
 
-
-
-
   
 });
+
+
+
+// @route   DELETE /comments
+// @desc    Delete all comment data
+app.delete('/posts/comments/delete-all-comments', async (req, res) => {
+  try {
+    await Comment.deleteMany({});
+    res.status(200).json({ message: 'All comment data deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting all comment data:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
 
 app.post("/events", (req, res) => {
   console.log("Event Received", req.body.type);

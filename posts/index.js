@@ -64,6 +64,18 @@ app.post("/events", (req, res) => {
   res.send({});
 });
 
+// @route   DELETE /posts/delete-all
+// @desc    Delete all post data
+app.delete("/posts/delete-all-posts", async (req, res) => {
+  try {
+    await Post.deleteMany({});
+    res.status(200).json({ message: "All posts data deleted" });
+  } catch (error) {
+    console.error("Error deleting all posts data:", error);
+    res.status(500).json({ message: "Error deleting all posts data" });
+  }
+});
+
 const start = async() =>{
 
   console.log('Post service starts on aws ')

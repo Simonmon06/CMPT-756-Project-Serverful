@@ -17,13 +17,34 @@ spec:
                 name: posts-clusterip-srv
                 port:
                   number: 4000
-          - path: /posts/deletequery
+          - path: /posts/delete-all-posts
+            pathType: Prefix
+            backend:
+              service:
+                name: posts-clusterip-srv
+                port:
+                  number: 4000
+          - path: /posts/delete-all-queries
             pathType: Prefix
             backend:
               service:
                 name: query-srv
                 port:
                   number: 4002
+          - path: /posts/comments/delete-all-comments
+            pathType: Prefix
+            backend:
+              service:
+                name: comments-srv
+                port:
+                  number: 4001
+          - path: /posts/comments
+            pathType: Prefix
+            backend:
+              service:
+                name: comments-srv
+                port:
+                  number: 4001   
           - path: /posts/search
             pathType: Prefix
             backend:
