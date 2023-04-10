@@ -78,6 +78,17 @@ app.get("/posts/search", async (req, res) => {
   }
 });
 
+// @route   DELETE /posts
+// @desc    Delete all query data
+app.delete('/posts/deletequery', async (req, res) => {
+  try {
+    await Query.deleteMany({});
+    res.status(200).json({ message: 'All query data deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting all query data:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
 
 const start = async() =>{
   console.log('Query service starts on aws ')
