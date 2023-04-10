@@ -80,7 +80,7 @@ app.get("/posts/search", async (req, res) => {
 
 // @route   DELETE /posts
 // @desc    Delete all query data
-app.delete('/posts/deletequery', async (req, res) => {
+app.delete('/posts/delete-all-queries', async (req, res) => {
   try {
     await Query.deleteMany({});
     res.status(200).json({ message: 'All query data deleted successfully' });
