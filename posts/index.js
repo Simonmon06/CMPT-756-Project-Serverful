@@ -12,7 +12,7 @@ app.use(cors());
 
 // @route   GET /posts
 // @desc    Get All Posts
-app.get("/posts", async(req, res) => {
+app.get("/posts/only-posts", async(req, res) => {
   try {
     const posts = await Post.find();
 
